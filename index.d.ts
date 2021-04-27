@@ -28,7 +28,7 @@ export interface CalendarProps<TValue extends Value> {
   colorPrimary?: string;
   colorPrimaryLight?: string;
   slideAnimationDuration?: string;
-  hideOnInput?: boolean;
+  autoCloseOnChange?: boolean;
   calendarClassName?: string;
   calendarTodayClassName?: string;
   calendarSelectedDayClassName?: string;
