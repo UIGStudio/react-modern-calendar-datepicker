@@ -8,6 +8,7 @@ import { TYPE_SINGLE_DATE, TYPE_MUTLI_DATE, TYPE_RANGE } from './shared/constant
 const DatePicker = ({
   value,
   onChange,
+  hideOnInput,
   formatInputText,
   inputPlaceholder,
   inputClassName,
@@ -111,8 +112,11 @@ const DatePicker = ({
   const handleCalendarChange = newValue => {
     const valueType = getValueType(value);
     onChange(newValue);
-    if (valueType === TYPE_SINGLE_DATE) setCalendarVisiblity(false);
-    else if (valueType === TYPE_RANGE && newValue.from && newValue.to) setCalendarVisiblity(false);
+    if(hideOnInput) {
+      if (valueType === TYPE_SINGLE_DATE) setCalendarVisiblity(false);
+      else if (valueType === TYPE_RANGE && newValue.from && newValue.to) setCalendarVisiblity(false);
+    }
+
   };
 
   const handleKeyUp = ({ key }) => {
