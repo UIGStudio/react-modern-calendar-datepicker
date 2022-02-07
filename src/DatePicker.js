@@ -112,11 +112,12 @@ const DatePicker = ({
   const handleCalendarChange = newValue => {
     const valueType = getValueType(value);
     onChange(newValue);
-    if(autoCloseOnChange) {
+    if (autoCloseOnChange) {
       if (valueType === TYPE_SINGLE_DATE) setCalendarVisiblity(false);
-      else if (valueType === TYPE_RANGE && newValue.from && newValue.to) setCalendarVisiblity(false);
+      else if (valueType === TYPE_RANGE && newValue.from && newValue.to) {
+        setCalendarVisiblity(false);
+      }
     }
-
   };
 
   const handleKeyUp = ({ key }) => {
