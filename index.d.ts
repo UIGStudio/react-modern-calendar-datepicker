@@ -48,6 +48,7 @@ export type RenderInputProps = {
 };
 
 export interface DatePickerProps<TValue extends Value> extends CalendarProps<TValue> {
+  alwaysOpen?:boolean;
   wrapperClassName?: string;
   inputClassName?: string;
   inputName?: string;
