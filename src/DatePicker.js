@@ -8,6 +8,7 @@ import { TYPE_SINGLE_DATE, TYPE_MUTLI_DATE, TYPE_RANGE } from './shared/constant
 const DatePicker = ({
   value,
   onChange,
+  alwaysOpen = false,
   autoCloseOnChange,
   formatInputText,
   inputPlaceholder,
@@ -39,11 +40,11 @@ const DatePicker = ({
   const calendarContainerElement = useRef(null);
   const inputElement = useRef(null);
   const shouldPreventToggle = useRef(false);
-  const [isCalendarOpen, setCalendarVisiblity] = useState(false);
+  const [isCalendarOpen, setCalendarVisiblity] = useState(alwaysOpen);
 
   useEffect(() => {
     const handleBlur = () => {
-      setCalendarVisiblity(false);
+      if (!alwaysOpen) setCalendarVisiblity(false);
     };
     window.addEventListener('blur', handleBlur, false);
     return () => {
@@ -69,7 +70,7 @@ const DatePicker = ({
       inputElement.current.focus();
     } else if (isInnerElementFocused && e.relatedTarget) {
       e.relatedTarget.focus();
-    } else {
+    } else if (!alwaysOpen) {
       setCalendarVisiblity(false);
     }
   };
@@ -112,7 +113,7 @@ const DatePicker = ({
   const handleCalendarChange = newValue => {
     const valueType = getValueType(value);
     onChange(newValue);
-    if (autoCloseOnChange) {
+    if (autoCloseOnChange && !alwaysOpen) {
       if (valueType === TYPE_SINGLE_DATE) setCalendarVisiblity(false);
       else if (valueType === TYPE_RANGE && newValue.from && newValue.to) {
         setCalendarVisiblity(false);
@@ -126,8 +127,10 @@ const DatePicker = ({
         setCalendarVisiblity(true);
         break;
       case 'Escape':
-        setCalendarVisiblity(false);
-        shouldPreventToggle.current = true;
+        if (!alwaysOpen) {
+          setCalendarVisiblity(false);
+          shouldPreventToggle.current = true;
+        }
         break;
     }
   };
@@ -192,7 +195,7 @@ const DatePicker = ({
               customDaysClassName={customDaysClassName}
             />
           </div>
-          <div className="DatePicker__calendarArrow" />
+          {!alwaysOpen && <div className="DatePicker__calendarArrow" />}
         </>
       )}
     </div>
